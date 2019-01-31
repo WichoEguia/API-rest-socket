@@ -25,6 +25,8 @@ export default class Server {
         // Para ello se crea un servidor http pasandole el servidor de express ya existente.
         this.httpServer = new http.Server(this.app);
         this.io = socketIO(this.httpServer);
+
+        this.escucharSockets();
     }
     
     /**
@@ -56,6 +58,6 @@ export default class Server {
      * @param {Function} callback Funcion que se llamara cuando se levante el servidor.
      */
     start(callback: Function) {
-        this.app.listen(this.port, callback);
+        this.httpServer.listen(this.port, callback);
     }
 }
