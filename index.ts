@@ -1,8 +1,9 @@
-import { SERVER_PORT } from './global/global';
+import { SERVER_PORT, DB_URL } from './global/global';
 import Server from './classes/Server';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import router from './routes/routes';
+import mongoose from 'mongoose';
 
 const server = Server.instance;
 
@@ -18,6 +19,12 @@ server.app.use(cors({
 
 // RUTAS
 server.app.use('/', router);
+
+// Conexion a base de datos
+mongoose.connect(DB_URL, { useNewUrlParser: true }, (err) => {
+    if (err) console.error(err);
+    console.log('Conectado a base de datos');
+});
 
 server.start(() => {
     console.log(`Escuchando el servidor en el puerto ${SERVER_PORT}`);
