@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import Server from '../classes/Server';
+import Server from '../libraries/Server';
 
 const router = Router();
 

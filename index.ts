@@ -1,10 +1,15 @@
-import { SERVER_PORT, DB_URL } from './global/global';
-import Server from './classes/Server';
+import Server from './libraries/Server';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import router from './routes/routes';
-import mongoose from 'mongoose';
+import Config from './config/config';
+import MySQL from './libraries/Mysql';
+// import MongoDB from './libraries/Mongo';
 
+// Inicializando configuración
+new Config();
+
+// Iniciando servidor
 const server = Server.instance;
 
 // body-parser
@@ -21,11 +26,10 @@ server.app.use(cors({
 server.app.use('/', router);
 
 // Conexion a base de datos
-mongoose.connect(DB_URL, { useNewUrlParser: true }, (err) => {
-    if (err) console.error(err);
-    console.log('Conectado a base de datos');
-});
+MySQL.instance;
+// MongoDB.instance;
+
 
 server.start(() => {
-    console.log(`Escuchando el servidor en el puerto ${SERVER_PORT}`);
+    console.log(`Escuchando el servidor en el puerto ${process.env.PORT}`);
 });

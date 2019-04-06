@@ -1,5 +1,4 @@
 import express from 'express';
-import { SERVER_PORT } from '../global/global';
 import socketIO from 'socket.io';
 import http from 'http';
 
@@ -18,7 +17,7 @@ export default class Server {
     private constructor() {
         // Se hace que el constructor sea private para que al
         // llamar el servidor no reinicie el socket
-        this.port = SERVER_PORT;
+        this.port = Number(process.env.PORT);
         this.app = express();
 
         // Para trabajar con socket.io se necesita un servidor http.
