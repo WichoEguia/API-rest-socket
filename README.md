@@ -1,6 +1,5 @@
 # Socket Server
 ## Instalación
----
 Reconstruir modulos de node
 ```
 npm install
@@ -12,7 +11,6 @@ tsc -w
 ```
 
 ## Levantar servidor
----
 Para levantar el servidor es necesario nodemon por defecto.
 Esto se puede cambiar en package.json en el apartado **scripts > start**
 ```
@@ -20,7 +18,6 @@ npm start
 ```
 
 ## Base de datos
----
 El API tiene soporte para librerías *MySQL* y *MongoDB* en el directorio **/libraries**.
 Solo se necesita importar el archivo y hacer la configuración inicial.
 
@@ -41,7 +38,6 @@ MySQL.instance;
 ```
 
 ## Comunicación por sockets
----
 La comunicación por sockets se realiza a través de [Socket.io](https://socket.io/).
 En el archivo **libraries\server.ts** se encuentra un método llamado _escucharSocket_ en el cual se escuchan los mensajes que llegan del cliente.
 Para mantener un orden se manejan los listeners en el archivo **sockets\socket.ts**.
