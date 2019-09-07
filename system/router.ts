@@ -1,9 +1,12 @@
-import { RouteDefinition } from "./core/models/RouteDefinition";
 import express from 'express';
+import chalk from 'chalk';
 
+import { RouteDefinition } from "./core/models/RouteDefinition";
 import MainController from "../controllers/MainController";
 
 export const Router = (app: any) => {
+  console.log(chalk.blueBright(`\nLoading routes`));
+
   [MainController].forEach(controller => {
     const instance: any = new controller();
     const prefix: string = Reflect.getMetadata('prefix', controller);
@@ -14,7 +17,7 @@ export const Router = (app: any) => {
         instance[route.methodName](req, res);
       });
 
-      console.log(`Loaded route ${prefix + route.path}`);
+      console.log(chalk.blueBright(`-> ${prefix + route.path}`));
     });
   });
 }

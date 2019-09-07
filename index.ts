@@ -1,3 +1,5 @@
+import chalk from 'chalk';
+
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import { Request, Response } from 'express';
@@ -25,15 +27,16 @@ server.app.use(cors({
 
 // RUTAS
 server.app.get('/', (req: Request, res: Response) => {
-    res.send('Hello word');
+    res.end(
+        `API rest por Luis Eguia ${new Date().getFullYear()}.`
+    );
 });
 
-// Iniciando rutas
 Router(server.app);
 
 // Conexion a base de datos Mongo o MySQL
 
 // Iniciar servidor
 server.start(() => {
-    console.log(`Escuchando el servidor en el puerto ${process.env.PORT}`);
+    console.log(chalk.green(`\nEscuchando el servidor en el puerto ${process.env.PORT}...\n`));
 });

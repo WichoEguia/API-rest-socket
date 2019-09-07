@@ -1,6 +1,8 @@
+import chalk from 'chalk';
+
 export default class Config {
     constructor() {
-        console.log('CONFIGURACION CARGADA!');
+        console.log(chalk.bgBlue('\nCONFIGURACION CARGADA!'));
 
         // Puerto
         process.env.PORT = '3000';
