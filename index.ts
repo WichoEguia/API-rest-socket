@@ -1,9 +1,11 @@
-import Server from './libraries/server';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import router from './routes/routes';
+import { Request, Response } from 'express';
+import 'reflect-metadata';
+
 import Config from './config/config';
-import MySQL from './libraries/mysql';
+import { Router } from './system/router';
+import Server from './system/server';
 
 // Inicializando configuración
 new Config();
@@ -22,10 +24,14 @@ server.app.use(cors({
 }));
 
 // RUTAS
-server.app.use('/', router);
+server.app.get('/', (req: Request, res: Response) => {
+    res.send('Hello word');
+});
 
-// Conexion a base de datos
-MySQL.instance;
+// Iniciando rutas
+Router(server.app);
+
+// Conexion a base de datos Mongo o MySQL
 
 // Iniciar servidor
 server.start(() => {

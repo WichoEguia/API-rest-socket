@@ -27,7 +27,7 @@ export default class Server {
 
         this.escucharSockets();
     }
-    
+
     /**
      * Se crea una funcion para obtener la instancia del servidor si ya existe.
      * Si no existe instancia del servidor, se creara una nueva instancia.
