@@ -17,7 +17,7 @@ export const Router = (app: any) => {
         instance[route.methodName](req, res);
       });
 
-      console.log(chalk.blueBright(`-> ${prefix + route.path}`));
+      console.log(chalk.blueBright(`-> ${route.requestMethod.toUpperCase()} ${prefix + route.path}`));
     });
   });
 }

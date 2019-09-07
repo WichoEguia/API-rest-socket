@@ -28,7 +28,7 @@ server.app.use(cors({
 // RUTAS
 server.app.get('/', (req: Request, res: Response) => {
     res.end(
-        `API rest por Luis Eguia ${new Date().getFullYear()}.`
+        `API rest por Luis Eguias ${new Date().getFullYear()}.`
     );
 });
 

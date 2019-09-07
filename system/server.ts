@@ -56,7 +56,7 @@ export default class Server {
      * 
      * @param {Function} callback Funcion que se llamara cuando se levante el servidor.
      */
-    start(callback: Function) {
+    start(callback: any) {
         this.httpServer.listen(this.port, callback);
     }
 }
