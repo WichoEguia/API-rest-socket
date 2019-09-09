@@ -9,6 +9,13 @@ import Config from './config/config';
 import { Router } from './system/router';
 import Server from './system/server';
 
+import { MainController } from './controllers/MainController';
+
+// Define controllers
+const controllers = [
+    MainController
+];
+
 // Inicializando configuración
 new Config();
 
@@ -32,7 +39,7 @@ server.app.get('/', (req: Request, res: Response) => {
     );
 });
 
-Router(server.app);
+Router(server.app, controllers);
 
 // Conexion a base de datos Mongo o MySQL
 

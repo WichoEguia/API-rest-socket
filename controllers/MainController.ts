@@ -8,7 +8,7 @@ interface MainResponse {
 }
 
 @Controller('/main')
-export default class MainController {
+export class MainController {
   @Get('/:message?')
   public index(req: Request, res: Response) {
     let responseData: MainResponse = {
