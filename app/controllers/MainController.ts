@@ -1,6 +1,6 @@
-import { Controller, Get, Middleware } from '../system/core/decorators';
+import { Controller, Get, Middleware } from '../../system/core/decorators';
 import { Request, Response } from 'express';
-import { sayHello } from './../middlewares/hi';
+import { sayHello } from '../middlewares/hi';
 
 interface MainResponse {
   message?: string;

@@ -3,7 +3,7 @@ import socketIO from 'socket.io';
 import http from 'http';
 
 // Importando funciones del archivo socket.ts
-import * as socket from '../sockets/socket';
+import * as socket from '../app/sockets/socket';
 
 export default class Server {
     private static _instance: Server;

@@ -5,11 +5,11 @@ import cors from 'cors';
 import { Request, Response } from 'express';
 import 'reflect-metadata';
 
-import Config from './config/config';
+import Config from './system/config/config';
 import { Router } from './system/router';
 import Server from './system/server';
 
-import { MainController } from './controllers/MainController';
+import { MainController } from './app/controllers/MainController';
 
 // Define controllers
 const controllers = [
