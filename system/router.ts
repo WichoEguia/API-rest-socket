@@ -12,7 +12,9 @@ export const Router = (app: any, controllers: any[]): void => {
     const routes: RouteDefinition[] = Reflect.getMetadata('routes', controller);
 
     routes.forEach(route => {
-      app[route.requestMethod](`${prefix + route.path}`, (req: express.Request, res: express.Response) => {
+      const middlewares = route.middleware || [];
+
+      app[route.requestMethod](`${prefix + route.path}`, middlewares, (req: express.Request, res: express.Response) => {
         instance[route.methodName](req, res);
       });
 

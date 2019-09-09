@@ -6,7 +6,7 @@ export const Get = (path: string): MethodDecorator => {
       Reflect.defineMetadata('routes', [], target.constructor);
     }
 
-    const routes = Reflect.getMetadata('routes', target.constructor) as Array<RouteDefinition>;
+    const routes: RouteDefinition[] = Reflect.getMetadata('routes', target.constructor) as Array<RouteDefinition>;
 
     routes.push({
       requestMethod: 'get',
