@@ -1,4 +1,4 @@
-import { RouteDefinition } from '../models/RouteDefinition';
+import { RouteDefinition } from '../../models/RouteDefinition';
 
 export const Get = (path: string): MethodDecorator => {
   return (target: Object, propertyKey: string | symbol) => {

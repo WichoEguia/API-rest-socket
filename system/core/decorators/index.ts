@@ -1,2 +1,2 @@
-export { Controller } from './Controller';
-export { Get } from './Get';
+export { Controller } from './REST/Controller';
+export { Get } from './REST/Get';
