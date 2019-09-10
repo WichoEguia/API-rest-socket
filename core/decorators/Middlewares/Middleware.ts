@@ -8,15 +8,10 @@ export const Middleware = (middleware: RequestHandler | RequestHandler[]): Metho
     }
 
     let routes: RouteDefinition[] = Reflect.getMetadata('routes', target.constructor) as Array<RouteDefinition>;
-    routes = routes.map(r => {
-      if (r.methodName == propertyKey) {
-        r.middleware = middleware;
-        return r
-      }
-
-      return r;
+    routes.push({
+      methodName: <string>propertyKey,
+      middleware
     });
-
     Reflect.defineMetadata('routes', routes, target.constructor);
   };
 }

@@ -5,9 +5,9 @@ import cors from 'cors';
 import { Request, Response } from 'express';
 import 'reflect-metadata';
 
-import Config from './system/config/config';
-import { Router } from './system/router';
-import Server from './system/server';
+import Config from './core/config/config';
+import { Router } from './core/router';
+import Server from './core/server';
 
 import { MainController } from './app/controllers/MainController';
 

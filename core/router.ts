@@ -1,7 +1,7 @@
 import express from 'express';
 import chalk from 'chalk';
 
-import { RouteDefinition } from "./core/models/RouteDefinition";
+import { RouteDefinition } from './models/RouteDefinition';
 
 export const Router = (app: any, controllers: any[]): void => {
   console.log(chalk.blueBright(`\nLoading routes`));
@@ -12,13 +12,15 @@ export const Router = (app: any, controllers: any[]): void => {
     const routes: RouteDefinition[] = Reflect.getMetadata('routes', controller);
 
     routes.forEach(route => {
-      const middlewares = route.middleware || [];
+      if (route.requestMethod) {
+        const middlewares = route.middleware || [];
 
-      app[route.requestMethod](`${prefix + route.path}`, middlewares, (req: express.Request, res: express.Response) => {
-        instance[route.methodName](req, res);
-      });
+        app[route.requestMethod](`${prefix + route.path}`, middlewares, (req: express.Request, res: express.Response) => {
+          instance[route.methodName](req, res);
+        });
 
-      console.log(chalk.blueBright(`-> ${route.requestMethod.toUpperCase()} ${prefix + route.path}`));
+        console.log(chalk.blueBright(`-> ${route.requestMethod.toUpperCase()} ${prefix + route.path}`));
+      }
     });
   });
 }

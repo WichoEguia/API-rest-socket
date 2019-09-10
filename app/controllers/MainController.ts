@@ -1,4 +1,4 @@
-import { Controller, Get, Middleware } from '../../system/core/decorators';
+import { Controller, Get, Middleware } from '../../core/decorators';
 import { Request, Response } from 'express';
 import { sayHello } from '../middlewares/hi';
 
@@ -10,8 +10,8 @@ interface MainResponse {
 
 @Controller('main')
 export class MainController {
-  @Middleware(sayHello)
   @Get('/message/:message?')
+  @Middleware(sayHello)
   public index(req: Request, res: Response) {
     let responseData: MainResponse = {
       message: req.params.message || undefined,
