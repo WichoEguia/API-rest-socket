@@ -4,7 +4,7 @@ import chalk from 'chalk';
 import { RouteDefinition } from './models/RouteDefinition';
 
 export const Router = (app: any, controllers: any[]): void => {
-  console.log(chalk.blueBright(`\nLoading routes`));
+  console.log(chalk.yellow(`\nLoading routes`));
 
   controllers.forEach(controller => {
     const instance: any = new controller();
@@ -19,7 +19,7 @@ export const Router = (app: any, controllers: any[]): void => {
           instance[route.methodName](req, res);
         });
 
-        console.log(chalk.blueBright(`-> ${route.requestMethod.toUpperCase()} ${prefix + route.path}`));
+        console.log(chalk.yellow(`-> ${route.requestMethod.toUpperCase()} ${prefix + route.path}`));
       }
     });
   });

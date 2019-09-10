@@ -1,3 +1,3 @@
 export { Controller } from './REST/Controller';
-export { Get } from './REST/Get';
 export { Middleware } from './Middlewares/Middleware';
+export { Get, Post, Put, Patch, Options, Delete } from './REST/RestMethods';

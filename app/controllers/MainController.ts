@@ -1,5 +1,6 @@
-import { Controller, Get, Middleware } from '../../core/decorators';
+import { Controller, Get, Post, Middleware } from '../../core/decorators';
 import { Request, Response } from 'express';
+
 import { sayHello } from '../middlewares/hi';
 
 interface MainResponse {
@@ -22,7 +23,7 @@ export class MainController {
     res.send(responseData);
   }
 
-  @Get('/hello')
+  @Post('/hello')
   public hello(req: Request, res: Response) {
     res.end('Hola Mundo');
   }

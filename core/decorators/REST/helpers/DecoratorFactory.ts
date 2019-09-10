@@ -1,6 +1,9 @@
-import { RouteDefinition } from '../../models/RouteDefinition';
+import {
+  RouteDefinition,
+  requestMethods
+} from '../../../models/RouteDefinition';
 
-export const Get = (path: string): MethodDecorator => {
+export const DecoratorFactory = (path: string, method: requestMethods): MethodDecorator => {
   return (target: Object, propertyKey: string | symbol) => {
     if (!Reflect.hasMetadata('routes', target.constructor)) {
       Reflect.defineMetadata('routes', [], target.constructor);
@@ -11,14 +14,14 @@ export const Get = (path: string): MethodDecorator => {
     let route = routes.find((route) => route.methodName == propertyKey);
     if (route) {
       routes = routes.map(route => {
-        route.requestMethod = 'get';
+        route.requestMethod = method;
         route.path = path;
 
         return route;
       });
     } else {
       routes.push({
-        requestMethod: 'get',
+        requestMethod: method,
         path,
         methodName: <string>propertyKey
       });
