@@ -1,8 +1,10 @@
 import express from 'express';
 import socketIO from 'socket.io';
 import http from 'http';
+import chalk from 'chalk';
 
 // Importando funciones del archivo socket.ts
+import { RouteDefinition } from './models/RouteDefinition';
 import * as socket from '../app/sockets/socket';
 
 export default class Server {
@@ -48,6 +50,28 @@ export default class Server {
 
             // Desconectar cliente.
             socket.clienteDesconectado(cliente, this.io);
+        });
+    }
+
+    public defineRouter(controllers: any[]) {
+        console.log(chalk.yellow(`\nLoading routes`));
+
+        controllers.forEach(controller => {
+            const instance: any = new controller();
+            const prefix: string = Reflect.getMetadata('prefix', controller);
+            const routes: RouteDefinition[] = Reflect.getMetadata('routes', controller);
+
+            routes.forEach(route => {
+                if (route.requestMethod) {
+                    const middlewares = route.middleware || [];
+
+                    this.app[route.requestMethod](`${prefix + route.path}`, middlewares, (req: express.Request, res: express.Response) => {
+                        instance[route.methodName](req, res);
+                    });
+
+                    console.log(chalk.yellow(`-> ${route.requestMethod.toUpperCase()} ${prefix + route.path}`));
+                }
+            });
         });
     }
 

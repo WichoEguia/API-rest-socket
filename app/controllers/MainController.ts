@@ -23,7 +23,7 @@ export class MainController {
     res.send(responseData);
   }
 
-  @Post('/hello')
+  @Get('/hello')
   public hello(req: Request, res: Response) {
     res.end('Hola Mundo');
   }
