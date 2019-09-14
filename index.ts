@@ -6,7 +6,7 @@ import { Request, Response } from 'express';
 import 'reflect-metadata';
 
 import Config from './core/config/config';
-import Server from './core/server';
+import Server from './core/Server';
 
 import { MainController } from './app/controllers/MainController';
 
@@ -33,9 +33,7 @@ server.app.get('/', (req: Request, res: Response) => {
     );
 });
 
-server.defineRouter([
-    MainController
-]);
+server.addControllers(new MainController());
 
 // Conexion a base de datos Mongo o MySQL
 
