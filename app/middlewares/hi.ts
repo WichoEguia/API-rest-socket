@@ -9,6 +9,6 @@ export const sayHello = (req: Request, res: Response, next: NextFunction) => {
     });
   }
 
-  console.log('Hola desde el middleware');
+  console.log(`Hola desde el middleware`);
   next();
 }

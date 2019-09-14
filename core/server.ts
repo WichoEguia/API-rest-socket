@@ -4,8 +4,9 @@ import socketIO from 'socket.io';
 import http from 'http';
 import chalk from 'chalk';
 
+import { responseHandler } from './../core/response_handler';
+
 // Importando funciones del archivo socket.ts
-import { RouteDefinition } from './models/RouteDefinition';
 import * as socket from '../app/sockets/socket';
 
 type Controller = InstanceType<any>;
@@ -20,7 +21,7 @@ export default class Server {
     private static _instance: Server;
 
     public port: number;
-    public app: any;
+    public app: Application;
 
     public io: socketIO.Server;
     private httpServer: http.Server;

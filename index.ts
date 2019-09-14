@@ -9,6 +9,7 @@ import Config from './core/config/config';
 import Server from './core/Server';
 
 import { MainController } from './app/controllers/MainController';
+import { responseHandler } from './core/response_handler';
 
 // Inicializando configuración
 new Config();
@@ -34,6 +35,9 @@ server.app.get('/', (req: Request, res: Response) => {
 });
 
 server.addControllers(new MainController());
+
+// Error catching
+responseHandler(server.app);
 
 // Conexion a base de datos Mongo o MySQL
 
