@@ -63,6 +63,12 @@ export default class Server {
         });
     }
 
+    /**
+     * Add and process the controllers to create the router
+     * 
+     * @param controllers Array of instances of controllers to serve
+     * @param routerLib Custom library to manage routes
+     */
     public addControllers(controllers: Controller | Controller[], routerLib?: RouterLib): void {
         controllers = (controllers instanceof Array) ? controllers : [controllers];
         const routerLibrary = routerLib || express.Router;
@@ -76,6 +82,12 @@ export default class Server {
         });
     }
 
+    /**
+     * Get data of the routes in the controller
+     * 
+     * @param routerLibrary Custom library to manage routes
+     * @param controller Instance of the controller to be processed
+     */
     private getRouter(routerLibrary: RouterLib, controller: Controller): IRouterAndPath {
         let router = routerLibrary();
 
@@ -88,7 +100,6 @@ export default class Server {
             };
         }
 
-        // Add paths/functions to router-object
         let members = Object.getOwnPropertyNames(controller);
         members = members.concat(Object.getOwnPropertyNames(prototype));
         members.forEach((member) => {
