@@ -4,10 +4,9 @@ import socketIO from 'socket.io';
 import http from 'http';
 import chalk from 'chalk';
 
-import { responseHandler } from './../core/response_handler';
-
-// Importando funciones del archivo socket.ts
+// Import socket events
 import * as socket from '../app/sockets/socket';
+import { CallHandler } from './CallHandler';
 
 type Controller = InstanceType<any>;
 type RouterLib = ((options?: any) => any);
@@ -27,39 +26,35 @@ export default class Server {
     private httpServer: http.Server;
 
     private constructor() {
-        // Se hace que el constructor sea private para que al
-        // llamar el servidor no reinicie el socket
         this.port = Number(process.env.PORT);
         this.app = express();
 
-        // Para trabajar con socket.io se necesita un servidor http.
-        // Para ello se crea un servidor http pasandole el servidor de express ya existente.
         this.httpServer = new http.Server(this.app);
         this.io = socketIO(this.httpServer);
 
-        this.escucharSockets();
+        this.socketListener();
     }
 
     /**
-     * Se crea una funcion para obtener la instancia del servidor si ya existe.
-     * Si no existe instancia del servidor, se creara una nueva instancia.
+     * Get server instance
+     * Create one if no exists
      * 
-     * @returns {Server} Instancia de la clase server.
+     * @returns Server instance
      */
     public static get instance(): Server {
         return this._instance || (this._instance = new Server());
     }
 
     /**
-     * Funcion encargada de escuchar todos los eventos de sockets.s
+     * Initialize the socket listener
      */
-    private escucharSockets() {
+    private socketListener() {
         this.io.on('connection', cliente => {
-            // Conectar cliente.
-            socket.clienteConectado(cliente, this.io);
+            // Connected client
+            socket.connectedClient(cliente, this.io);
 
-            // Desconectar cliente.
-            socket.clienteDesconectado(cliente, this.io);
+            // Disconnected client
+            socket.disconnectedClient(cliente, this.io);
         });
     }
 
@@ -109,7 +104,7 @@ export default class Server {
                 const { routeMiddleware, httpVerb, path } = routeProperties;
 
                 let callBack = (req: Request, res: Response, next: NextFunction) => {
-                    return controller[member](req, res, next);
+                    return CallHandler(req, res, next, controller[member], this.app);
                 };
 
                 if (routeMiddleware) {
@@ -129,11 +124,11 @@ export default class Server {
     }
 
     /**
-     * Levanta el servidor en el puerto especificado en el archivo de configuración.
+     * Launch the server in the configuration port
      * 
-     * @param {Function} callback Funcion que se llamara cuando se levante el servidor.
+     * @param callback
      */
-    public start(callback: any) {
+    public start(callback: any): void {
         this.httpServer.listen(this.port, callback);
     }
 }
