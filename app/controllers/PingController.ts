@@ -1,14 +1,9 @@
-import { Controller, Get, Middleware } from '../../core/decorators';
-import { Request, Response, NextFunction } from 'express';
-
-import { sayHello } from '../middlewares/hi';
+import { Controller, Get } from '../../core/decorators';
 
 @Controller('ping')
 export class PingController {
   @Get()
-  // @Middleware(sayHello)
-  public hello(req: Request) {
-    // throw new Error('Hola crayola');
-    return { headers: req.headers };
+  public index() {
+    return 'Respuesta';
   }
 }

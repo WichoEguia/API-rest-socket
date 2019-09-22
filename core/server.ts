@@ -1,22 +1,21 @@
-import { Application, Request, Response, Router, NextFunction } from 'express';
-import express from 'express';
+import express, { Application, Request, Response, Router, NextFunction } from 'express';
 import socketIO from 'socket.io';
 import http from 'http';
 import chalk from 'chalk';
 
-// Import socket events
+import ServerConfig from './config/ServerConfig';
+
 import * as socket from '../app/sockets/socket';
-import { CallHandler } from './CallHandler';
 
-type Controller = InstanceType<any>;
-type RouterLib = ((options?: any) => any);
+export type Controller = InstanceType<any>;
+export type RouterLib = ((options?: any) => any);
 
-interface IRouterAndPath {
+export interface IRouterAndPath {
     basePath: string | null;
     router: Router | null;
 }
 
-export default class Server {
+export default class Server extends ServerConfig{
     private static _instance: Server;
 
     public port: number;
@@ -26,6 +25,8 @@ export default class Server {
     private httpServer: http.Server;
 
     private constructor() {
+        super();
+
         this.port = Number(process.env.PORT);
         this.app = express();
 
@@ -66,8 +67,8 @@ export default class Server {
      */
     public addControllers(controllers: Controller | Controller[], routerLib?: RouterLib): void {
         controllers = (controllers instanceof Array) ? controllers : [controllers];
-        const routerLibrary = routerLib || express.Router;
-        controllers.forEach((controller: Controller) => {
+        const routerLibrary = routerLib || Router;
+            controllers.forEach((controller: Controller) => {
             if (controller) {
                 const { basePath, router } = this.getRouter(routerLibrary, controller);
                 if (basePath && router) {
@@ -75,52 +76,6 @@ export default class Server {
                 }
             }
         });
-    }
-
-    /**
-     * Get data of the routes in the controller
-     * 
-     * @param routerLibrary Custom library to manage routes
-     * @param controller Instance of the controller to be processed
-     */
-    private getRouter(routerLibrary: RouterLib, controller: Controller): IRouterAndPath {
-        let router = routerLibrary();
-
-        const prototype = Object.getPrototypeOf(controller);
-        const basePath = Reflect.getOwnMetadata('BASE_PATH', prototype);
-        if (!basePath) {
-            return {
-                basePath: null,
-                router: null,
-            };
-        }
-
-        let members = Object.getOwnPropertyNames(controller);
-        members = members.concat(Object.getOwnPropertyNames(prototype));
-        members.forEach((member) => {
-            const route = controller[member];
-            const routeProperties = Reflect.getOwnMetadata(member, prototype);
-            if (route && routeProperties) {
-                const { routeMiddleware, httpVerb, path } = routeProperties;
-
-                let callBack = (req: Request, res: Response, next: NextFunction) => {
-                    return CallHandler(req, res, next, controller[member], this.app);
-                };
-
-                if (routeMiddleware) {
-                    router[httpVerb](path, routeMiddleware, callBack);
-                } else {
-                    router[httpVerb](path, callBack);
-                }
-
-                console.log(chalk.yellow(`-> ${httpVerb.toUpperCase()} ${basePath + path}`));
-            }
-        });
-
-        return {
-            basePath,
-            router,
-        };
     }
 
     /**

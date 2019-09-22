@@ -1,17 +1,12 @@
 import chalk from 'chalk';
-
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import { Request, Response, NextFunction } from 'express';
 import 'reflect-metadata';
 
-import Config from './core/config/config';
 import Server from './core/Server';
 
 import { PingController } from './app/controllers/PingController';
-
-// Initialize config
-new Config();
 
 // Get server instanse
 const server = Server.instance;
@@ -44,5 +39,5 @@ server.addControllers(new PingController());
 // Space to set a database
 
 server.start(() => {
-    console.log(chalk.green(`\nEscuchando el servidor en el puerto ${process.env.PORT}...\n`));
+    console.log(chalk.yellowBright(`\nEscuchando el servidor en el puerto ${process.env.PORT}\n`));
 });
