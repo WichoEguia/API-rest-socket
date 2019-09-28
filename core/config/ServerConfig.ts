@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 
 export default class ServerConfig {
     constructor() {
-        console.log(chalk.bgBlue('\nSTARTING SERVER...'));
+        console.log(chalk.blue('\nSTARTING SERVER...'));
 
         // PORT
         process.env.PORT = '3000';
@@ -60,9 +60,16 @@ export default class ServerConfig {
                     const result = controller[member](...args);
 
                     if (result) {
-                        let body = await result;
-                        req.body = body;
-                        res.send(body);
+                        let data = await result;
+
+                        if (typeof data === "object") {
+                            res.json({
+                                ok: true,
+                                data
+                            });
+                        } else {
+                            res.send(data);
+                        }
                     }
                 };
 
@@ -72,14 +79,11 @@ export default class ServerConfig {
                     router[httpVerb](path, callBack);
                 }
 
-                console.log(chalk.yellow(`-> ${httpVerb.toUpperCase()} ${basePath + path}`));
+                console.log(`${chalk.magenta('- ' + httpVerb.toUpperCase())} ${chalk.yellow(basePath + path)}`);
             }
         });
 
-        return {
-            basePath,
-            router,
-        };
+        return { basePath, router };
     }
 
     private getArguments(params: any[], req: Request, res: Response, next: NextFunction): any[] {

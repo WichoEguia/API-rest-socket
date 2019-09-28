@@ -25,8 +25,8 @@ export const QueryParams = (): ParameterDecorator => {
 
 export const Param = (prop?: string): ParameterDecorator => {
   return Inject((req: any) => {
-    if (!prop) return req.param;
-    return req.param[prop];
+    if (!prop) return req.params;
+    return req.params[prop];
   });
 }
 
@@ -41,7 +41,7 @@ export function Inject(fn: Function): ParameterDecorator {
     if (!routeProperties.hasOwnProperty('params'))
       routeProperties.params = [];
 
-    routeProperties.params.push({ index, fn })
+    routeProperties.params.push({ index, fn });
     Reflect.defineMetadata(propertyKey, routeProperties, target);
   }
 }

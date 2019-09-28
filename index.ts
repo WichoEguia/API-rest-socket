@@ -6,7 +6,7 @@ import 'reflect-metadata';
 
 import Server from './core/Server';
 
-import { PingController } from './app/controllers/PingController';
+import { TestController } from './app/controllers/TestController';
 
 // Get server instanse
 const server = Server.instance;
@@ -34,7 +34,7 @@ server.app.get('/', (req: Request, res: Response) => {
     );
 });
 
-server.addControllers(new PingController());
+server.addControllers(new TestController());
 
 // Space to set a database
 
