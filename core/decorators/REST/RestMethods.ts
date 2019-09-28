@@ -14,10 +14,7 @@ export const Patch = (path: string = ''): MethodDecorator => DecoratorFactory('p
 
 const DecoratorFactory = (httpVerb: httpVerbs, path: string): MethodDecorator => {
   return (target: Object, propertyKey: string | symbol) => {
-    let routeProperties = Reflect.getOwnMetadata(propertyKey, target);
-    if (!routeProperties) {
-      routeProperties = {};
-    }
+    let routeProperties = Reflect.getOwnMetadata(propertyKey, target) || {};
 
     routeProperties = {
       httpVerb,

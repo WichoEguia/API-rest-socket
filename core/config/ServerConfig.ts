@@ -53,13 +53,17 @@ export default class ServerConfig {
             const route = controller[member];
             const routeProperties = Reflect.getOwnMetadata(member, prototype);
             if (route && routeProperties) {
-                const { routeMiddleware, httpVerb, path } = routeProperties;
+                const { routeMiddleware, httpVerb, path, params } = routeProperties;
 
-                let callBack = (req: Request, res: Response, next: NextFunction) => {
-                    let result = controller[member]();
-                    res.json({
-                        result
-                    });
+                let callBack = async (req: Request, res: Response, next: NextFunction) => {
+                    let args = this.getArguments(params, req, res, next);
+                    const result = controller[member](...args);
+
+                    if (result) {
+                        let body = await result;
+                        req.body = body;
+                        res.send(body);
+                    }
                 };
 
                 if (routeMiddleware) {
@@ -76,5 +80,22 @@ export default class ServerConfig {
             basePath,
             router,
         };
+    }
+
+    private getArguments(params: any[], req: Request, res: Response, next: NextFunction): any[] {
+        let args = [req, res, next];
+
+        if (params) {
+            args = [];
+            params.sort((a: any, b: any) => a.index - b.index);
+            params.forEach(param => {
+                let result;
+                if (param !== undefined) result = param.fn(req);
+
+                args.push(result);
+            });
+        }
+
+        return args;
     }
 }

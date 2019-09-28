@@ -2,10 +2,7 @@ import { RequestHandler } from 'express';
 
 export const Middleware = (middleware: RequestHandler | RequestHandler[]): MethodDecorator => {
   return (target: Object, propertyKey?: string | symbol) => {
-    let routeProperties = Reflect.getOwnMetadata(propertyKey, target);
-    if (!routeProperties) {
-      routeProperties = {};
-    }
+    let routeProperties = Reflect.getOwnMetadata(propertyKey, target) || {};
 
     routeProperties = {
       routeMiddleware: middleware,

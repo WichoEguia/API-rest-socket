@@ -1,9 +1,9 @@
-import { Controller, Get } from '../../core/decorators';
+import { Controller, Post, Param } from '../../core/decorators';
 
 @Controller('ping')
 export class PingController {
-  @Get()
-  public index() {
-    return 'Respuesta';
+  @Post('/:id')
+  public index(@Param('id') id: any) {
+    return id;
   }
 }
