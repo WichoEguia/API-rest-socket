@@ -14,11 +14,11 @@ export const Patch = (path: string = '', spec: Object = {}): MethodDecorator => 
 
 function DecoratorFactory(httpVerb: httpVerbs, path: string, spec: Object): MethodDecorator {
   return (target: Object, propertyKey: string | symbol) => {
-    spec = {
-      [path ? (path) : '/']: {
-        [httpVerb]: { ...spec }
-      }
-    };
+    // spec = {
+    //   [path ? (path) : '/']: {
+    //     [httpVerb]: { ...spec }
+    //   }
+    // };
 
     let routeProperties = Reflect.getOwnMetadata(propertyKey, target) || {};
 

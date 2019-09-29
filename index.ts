@@ -6,6 +6,7 @@ import 'reflect-metadata';
 import path from 'path';
 
 import Server from './core/Server';
+import { specBuilder } from './core/decorators/SpecBuilder';
 
 import { TestController } from './app/controllers/TestController';
 
@@ -34,6 +35,7 @@ server.app.get('/', (req: Request, res: Response) => {
 });
 
 server.addControllers(new TestController());
+console.log(JSON.stringify(specBuilder.getSpec()));
 
 // Space to set a database
 

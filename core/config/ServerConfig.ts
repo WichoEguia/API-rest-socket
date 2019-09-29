@@ -2,6 +2,8 @@ import chalk from 'chalk';
 import { RouterLib, Controller, IRouterAndPath } from '../Server';
 import { Request, Response, NextFunction } from 'express';
 
+import { specBuilder } from './../decorators/SpecBuilder';
+
 export default class ServerConfig {
     constructor() {
         console.log(chalk.blue('\nSTARTING SERVER...'));
@@ -54,6 +56,9 @@ export default class ServerConfig {
             const routeProperties = Reflect.getOwnMetadata(member, prototype);
             if (route && routeProperties) {
                 const { routeMiddleware, httpVerb, path, params, pathSpec } = routeProperties;
+
+                // Add routes to spec
+                specBuilder.addPathSpec(path, httpVerb, pathSpec);
 
                 let callBack = async (req: Request, res: Response, next: NextFunction) => {
                     let args = this.getArguments(params, req, res, next);
