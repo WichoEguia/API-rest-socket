@@ -20,7 +20,7 @@ export default class ServerConfig {
         process.env.SEED = 'este-es-el-seed-desarrollo';
 
         // Proyect name
-        process.env.API_NAME = 'WAPI EXAMPLE';
+        process.env.API_NAME = 'EAPI';
 
         // Version
         process.env.API_VERSION = '1.0.0';
@@ -53,7 +53,7 @@ export default class ServerConfig {
             const route = controller[member];
             const routeProperties = Reflect.getOwnMetadata(member, prototype);
             if (route && routeProperties) {
-                const { routeMiddleware, httpVerb, path, params } = routeProperties;
+                const { routeMiddleware, httpVerb, path, params, pathSpec } = routeProperties;
 
                 let callBack = async (req: Request, res: Response, next: NextFunction) => {
                     let args = this.getArguments(params, req, res, next);
@@ -63,10 +63,7 @@ export default class ServerConfig {
                         let data = await result;
 
                         if (typeof data === "object") {
-                            res.json({
-                                ok: true,
-                                data
-                            });
+                            res.json(data);
                         } else {
                             res.send(data);
                         }

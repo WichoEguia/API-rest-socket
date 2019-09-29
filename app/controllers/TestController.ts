@@ -1,10 +1,39 @@
-import { Controller, Post, Body, Param, QueryParam, Middleware, Get, Req } from '../../core/decorators';
+import { Controller, Post, Body, Param, QueryParam, Get, Req } from '../../core/decorators';
+
+const PING_RESPONSE = {
+  description: 'Ping Response',
+  content: {
+    'application/json': {
+      schema: {
+        greetings: { type: 'string' },
+        url: { type: 'string' },
+        date: { type: 'string' },
+        headers: {
+          type: 'object',
+          properties: {
+            'Content-Type': { type: 'string' },
+          },
+          additionalProperties: true,
+        }
+      },
+    }
+  }
+};
 
 @Controller('test')
 export class TestController {
-  @Get('/ping')
+  @Get('/ping', {
+    responses: {
+      '200': PING_RESPONSE
+    }
+  })
   async ping(@Req() req: Request) {
-    return req.headers;
+    return {
+      greetings: 'Hola desde EAPI',
+      url: req.url,
+      date: new Date(),
+      headers: req.headers
+    };
   }
 
   @Post('/body')
