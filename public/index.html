@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>EAPI</title>
+</head>
+
+<body>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      box-sizing: border-box;
+    }
+
+    main {
+      height: 100vh;
+    }
+
+    header {
+      background: #2354f4;
+      color: #FFF;
+      padding: 15px;
+      height: 20%;
+      display: flex;
+      align-items: center;
+    }
+
+    header h1 {
+      font-weight: 300;
+    }
+
+    .wrapper {
+      height: 75%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #222;
+    }
+
+    .wrapper p {
+      margin: 15px 0;
+    }
+
+    .wrapper a {
+      color: #2354f4;
+      text-decoration: unset;
+    }
+
+    footer {
+      height: 5%;
+      background: #222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    footer a {
+      color: #DDD;
+    }
+  </style>
+
+  <main>
+    <header>
+      <h1>EAPI</h1>
+    </header>
+
+    <div class="wrapper">
+      <div>
+        <p>
+          PING <a href="/test/ping">localhost:3000/test/ping</a>
+        </p>
+
+        <p>
+          API explorer <a href="#">localhost:3000/explorer</a>
+        </p>
+
+        <p>
+          Open Api 3.0 <a href="#">spec</a>
+        </p>
+      </div>
+    </div>
+
+    <footer>
+      <a href="https://github.com/WichoEguia/API-rest-socket">
+        View on github
+      </a>
+    </footer>
+  </main>
+</body>
+
+</html>

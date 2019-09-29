@@ -1,21 +1,24 @@
-import { Controller, Post, Body, Param, QueryParam, Middleware } from '../../core/decorators';
-import { ping } from '../middlewares/ping';
+import { Controller, Post, Body, Param, QueryParam, Middleware, Get, Req } from '../../core/decorators';
 
 @Controller('test')
 export class TestController {
-  @Middleware(ping)
+  @Get('/ping')
+  async ping(@Req() req: Request) {
+    return req.headers;
+  }
+
   @Post('/body')
-  public async testBody(@Body() body: any) {
+  async testBody(@Body() body: any) {
     return body;
   }
 
   @Post('/param/:id?')
-  public async testParams(@Param('id') id: string) {
+  async testParams(@Param('id') id: string) {
     return id;
   }
 
   @Post('/query')
-  public async testQuery(@QueryParam('message') msg: string) {
+  async testQuery(@QueryParam('message') msg: string) {
     return msg;
   }
 }

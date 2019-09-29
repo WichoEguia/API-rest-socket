@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import { Request, Response, NextFunction } from 'express';
 import 'reflect-metadata';
+import path from 'path';
 
 import Server from './core/Server';
 
@@ -29,9 +30,7 @@ server.app.use(cors({
 
 // Set main route
 server.app.get('/', (req: Request, res: Response) => {
-    res.end(
-        `API rest por Luis Eguias ${new Date().getFullYear()}.`
-    );
+    res.sendFile(path.resolve(__dirname, '../public/index.html'));
 });
 
 server.addControllers(new TestController());
