@@ -42,12 +42,23 @@ class SpecBuilder {
     }
 
     if (!this.spec.paths.hasOwnProperty(path)) {
-      this.spec.paths[path] = { ...spec }
+      this.spec.paths[path] = { ...spec[path] }
     } else {
-      if (!this.spec.paths.path.hasOwnProperty(method)) {
+      if (!this.spec.paths[path].hasOwnProperty(method)) {
         this.spec.paths[path][method] = { ...spec[path] }
       }
     }
+  }
+
+  /**
+   * Add parameters to path in the global spec
+   * 
+   * @param path Path that belongs the parameter
+   * @param spec Info of the parameter
+   */
+  public addParamsSpec(path: string, spec: any) {
+    this.spec.paths[path]['parameters'] = this.spec.paths[path]['parameters'] || [];
+    this.spec.paths[path]['parameters'] = [...this.spec.paths[path]['parameters'], spec];
   }
 }
 

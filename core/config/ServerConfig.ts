@@ -61,7 +61,7 @@ export default class ServerConfig {
                 specBuilder.addPathSpec(path, httpVerb, pathSpec);
 
                 let callBack = async (req: Request, res: Response, next: NextFunction) => {
-                    let args = this.getArguments(params, req, res, next);
+                    let args = this.getArguments(path, params, req, res, next);
                     const result = controller[member](...args);
 
                     if (result) {
@@ -72,6 +72,8 @@ export default class ServerConfig {
                         } else {
                             res.send(data);
                         }
+
+                        console.log(JSON.stringify(specBuilder.getSpec()));
                     }
                 };
 
@@ -88,13 +90,15 @@ export default class ServerConfig {
         return { basePath, router };
     }
 
-    private getArguments(params: any[], req: Request, res: Response, next: NextFunction): any[] {
+    private getArguments(path: string, params: any[], req: Request, res: Response, next: NextFunction): any[] {
         let args = [req, res, next];
 
         if (params) {
             args = [];
             params.sort((a: any, b: any) => a.index - b.index);
             params.forEach(param => {
+                specBuilder.addParamsSpec(path, param.spec)
+
                 let result;
                 if (param !== undefined) result = param.fn(req);
 

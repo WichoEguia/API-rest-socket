@@ -1,4 +1,5 @@
 import { Controller, Post, Body, Param, QueryParam, Get, Req } from '../../core/decorators';
+import { specBuilder } from '../../core/decorators/SpecBuilder';
 
 const PING_RESPONSE = {
   description: 'Ping Response',
@@ -27,7 +28,9 @@ export class TestController {
       '200': PING_RESPONSE
     }
   })
-  async ping(@Req() req: Request) {
+  async ping(
+    @Req() req: Request
+  ) {
     return {
       greetings: 'Hola desde EAPI',
       url: req.url,
@@ -41,13 +44,82 @@ export class TestController {
     return body;
   }
 
-  @Post('/param/:id?')
-  async testParams(@Param('id') id: string) {
+  @Post('/param/:id?', {
+    responses: {
+      '200': {
+        description: 'Test with params response',
+        content: {
+          'application/json': {
+            schema: {
+              id: { type: 'string' }
+            }
+          }
+        }
+      }
+    }
+  })
+  async testParams(
+    @Param('id', {
+      name: 'id',
+      description: 'Identification for the element.',
+      required: true
+    }) id: string
+  ) {
     return id;
   }
 
-  @Post('/query')
-  async testQuery(@QueryParam('message') msg: string) {
-    return msg;
+  @Post('/query', {
+    responses: {
+      '200': {
+        description: 'Message sent',
+        content: {
+          'application/json': {
+            schema: {
+              msg: { type: 'string' }
+            }
+          }
+        }
+      }
+    }
+  })
+  async testQuery(
+    @QueryParam('message', {
+      name: 'message',
+      description: 'Request message.',
+      required: true
+    }
+    ) msg: string) {
+    return { msg };
+  }
+
+  @Post('/paramAndQuery/:id?', {
+    responses: {
+      '200': {
+        description: 'Test with params and query response',
+        content: {
+          'application/json': {
+            schema: {
+              id: { type: 'string' },
+              msg: { type: 'string' }
+            }
+          }
+        }
+      }
+    }
+  })
+  async testParamsAndQuery(
+    @Param('id', {
+      name: 'id',
+      description: 'Identification for the element.',
+      required: false
+    }) id: string = 'hahaha',
+
+    @QueryParam('message', {
+      name: 'msg',
+      description: 'Get message from request',
+      required: true
+    }) msg: string
+  ) {
+    return { id, msg };
   }
 }

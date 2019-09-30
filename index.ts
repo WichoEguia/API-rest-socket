@@ -35,7 +35,6 @@ server.app.get('/', (req: Request, res: Response) => {
 });
 
 server.addControllers(new TestController());
-console.log(JSON.stringify(specBuilder.getSpec()));
 
 // Space to set a database
 

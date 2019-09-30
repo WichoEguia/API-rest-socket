@@ -1,5 +1,3 @@
-let PARAMS_PREFIX: string = '$param';
-
 export const Req = (): ParameterDecorator => {
   return Inject((req: any) => req);
 }
@@ -12,7 +10,7 @@ export const Body = (spec: Object = {}): ParameterDecorator => {
   return Inject((req: any) => req.body, spec);
 }
 
-export const QueryParam = (spec: Object = {}, prop?: string): ParameterDecorator => {
+export const QueryParam = (prop?: string | null, spec: Object = {}): ParameterDecorator => {
   return Inject((req: any) => {
     if (!prop) return req.query;
     return req.query[prop];
@@ -20,10 +18,10 @@ export const QueryParam = (spec: Object = {}, prop?: string): ParameterDecorator
 }
 
 export const QueryParams = (spec: Object = {}): ParameterDecorator => {
-  return QueryParam(spec);
+  return QueryParam(null, spec);
 }
 
-export const Param = (spec: Object = {}, prop?: string): ParameterDecorator => {
+export const Param = (prop?: string | null, spec: Object = {}): ParameterDecorator => {
   return Inject((req: any) => {
     if (!prop) return req.params;
     return req.params[prop];
@@ -31,7 +29,7 @@ export const Param = (spec: Object = {}, prop?: string): ParameterDecorator => {
 }
 
 export const Params = (spec: Object = {}): ParameterDecorator => {
-  return Param(spec);
+  return Param(null, spec);
 }
 
 export function Inject(fn: Function, spec?: Object): ParameterDecorator {
