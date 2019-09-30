@@ -1,5 +1,4 @@
 import { Controller, Post, Body, Param, QueryParam, Get, Req } from '../../core/decorators';
-import { specBuilder } from '../../core/decorators/SpecBuilder';
 
 const PING_RESPONSE = {
   description: 'Ping Response',

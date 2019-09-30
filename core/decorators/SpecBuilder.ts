@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { httpVerbs } from './REST/RestMethods';
 
 /**
@@ -25,6 +26,17 @@ class SpecBuilder {
    */
   public getSpec() {
     return this.spec;
+  }
+
+  /**
+   * Generate a JSON file with the generated spec
+   */
+  public generateSpec() {
+    fs.writeFile(
+      'API/spec.json',
+      JSON.stringify(this.spec),
+      (err) => console.log(err)
+    );
   }
 
   /**
