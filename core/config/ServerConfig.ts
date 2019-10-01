@@ -61,7 +61,7 @@ export default class ServerConfig {
                 specBuilder.addPathSpec(path, httpVerb, pathSpec);
                 params.forEach((param: any) => {
                     // params.sort((a: any, b: any) => a.index - b.index);
-                    specBuilder.addParamsSpec(path, param.spec)
+                    specBuilder.addParamsSpec(path, param.spec, param.type, httpVerb);
                 });
 
                 let callBack = async (req: Request, res: Response, next: NextFunction) => {

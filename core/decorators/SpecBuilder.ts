@@ -71,9 +71,19 @@ class SpecBuilder {
    * @param path Path that belongs the parameter
    * @param spec Info of the parameter
    */
-  public addParamsSpec(path: string, spec: any) {
-    this.spec.paths[path]['parameters'] = this.spec.paths[path]['parameters'] || [];
-    this.spec.paths[path]['parameters'] = [...this.spec.paths[path]['parameters'], spec];
+  public addParamsSpec(path: string, spec: any, type: string, method: string) {
+    console.log(type);
+    switch (type) {
+      case 'QUERY_PARAM':
+      case 'PARAM':
+        this.spec.paths[path]['parameters'] = this.spec.paths[path]['parameters'] || [];
+        this.spec.paths[path]['parameters'] = [...this.spec.paths[path]['parameters'], spec];
+        break;
+
+      case 'BODY':
+        this.spec.paths[path][method]['requestBody'] = spec;
+        break;
+    }
   }
 }
 

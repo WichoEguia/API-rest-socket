@@ -1,51 +1,35 @@
-import { Controller, Post, Body, Param, QueryParam, Get, Req } from '../../core/decorators';
+import { Controller, Post, Body, Param, Get } from '../../core/decorators';
+import { RESPONSE_TEST_PARAMS, RESPONSE_TEST_REQUESTBODY } from '../spec/responses';
+import { PARAMETERS_TOKEN_TEST_PARAMS, PARAMETERS_ID_TEST_PARAMS, REQUESTBODY_FROM_TEST_REQUESTBODY } from '../spec/params';
+
+interface body {
+  id: number;
+  name: string;
+  age: number;
+}
 
 @Controller('test')
 export class TestController {
-  @Get('/param/:id/:token', {
+  @Get('/params/:id/:token', {
     responses: {
-      '200': {
-        description: 'Test with params response',
-        content: {
-          'application/json': {
-            schema: {
-              type: 'object',
-              properties: {
-                id: {
-                  description: 'Identificator',
-                  type: 'string'
-                },
-                token: {
-                  description: 'Generic token',
-                  type: 'string'
-                }
-              }
-            }
-          }
-        }
-      }
+      '200': RESPONSE_TEST_PARAMS
     }
   })
   async testParams(
-    @Param('id', {
-      "name": "id",
-      "in": "path",
-      "description": "The token identifier string",
-      "required": true,
-      "schema": {
-        "type": "string"
-      }
-    }) id: string,
-    @Param('token', {
-      "name": "token",
-      "in": "path",
-      "description": "The token identifier string",
-      "required": false,
-      "schema": {
-        "type": "string"
-      }
-    }) token: string
+    @Param('id', PARAMETERS_ID_TEST_PARAMS) id: string,
+    @Param('token', PARAMETERS_TOKEN_TEST_PARAMS) token: string
   ) {
     return { id, token };
+  }
+
+  @Post('/bodyRequest', {
+    responses: {
+      '200': RESPONSE_TEST_REQUESTBODY
+    }
+  })
+  async testBodyRequest(
+    @Body(REQUESTBODY_FROM_TEST_REQUESTBODY) body: body
+  ) {
+    return body;
   }
 }
