@@ -34,7 +34,7 @@ class SpecBuilder {
   public generateSpec() {
     // TODO: Cambiar funcionalidad para generar directamente la documentación
     fs.writeFile(
-      'API/spec.json',
+      'public/API/spec.json',
       JSON.stringify(this.spec),
       err => {
         if (err) console.log(err)
@@ -72,7 +72,6 @@ class SpecBuilder {
    * @param spec Info of the parameter
    */
   public addParamsSpec(path: string, spec: any, type: string, method: string) {
-    console.log(type);
     switch (type) {
       case 'QUERY_PARAM':
       case 'PARAM':

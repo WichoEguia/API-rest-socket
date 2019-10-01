@@ -9,6 +9,7 @@ import Server from './core/Server';
 import { specBuilder } from './core/decorators/SpecBuilder';
 
 import { TestController } from './app/controllers/TestController';
+import express from 'express';
 
 // Get server instanse
 const server = Server.instance;
@@ -31,11 +32,13 @@ server.app.use(cors({
 
 server.addControllers(new TestController());
 
+// Generating spec json
 specBuilder.generateSpec();
 
-// Set main route
-server.app.get('/', (req: Request, res: Response) => {
-    res.sendFile(path.resolve(__dirname, '../public/index.html'));
+// Serve static files and setting link to api explorer
+server.app.use(express.static('public'));
+server.app.get('/explorer', (req: Request, res: Response) => {
+    res.sendFile(path.resolve(__dirname, '../public/API/index.html'));
 });
 
 // Space to set a database

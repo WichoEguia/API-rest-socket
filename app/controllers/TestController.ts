@@ -11,6 +11,7 @@ interface body {
 @Controller('test')
 export class TestController {
   @Get('/params/:id/:token', {
+    summary: 'testing parameters',
     responses: {
       '200': RESPONSE_TEST_PARAMS
     }
@@ -23,6 +24,7 @@ export class TestController {
   }
 
   @Post('/bodyRequest', {
+    summary: 'testing body request',
     responses: {
       '200': RESPONSE_TEST_REQUESTBODY
     }
