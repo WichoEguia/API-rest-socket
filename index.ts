@@ -29,15 +29,14 @@ server.app.use(cors({
     credentials: true
 }));
 
+server.addControllers(new TestController());
+
+specBuilder.generateSpec();
+
 // Set main route
 server.app.get('/', (req: Request, res: Response) => {
     res.sendFile(path.resolve(__dirname, '../public/index.html'));
 });
-
-server.addControllers(new TestController());
-
-specBuilder.generateSpec();
-console.log(JSON.stringify(specBuilder.getSpec()));
 
 // Space to set a database
 

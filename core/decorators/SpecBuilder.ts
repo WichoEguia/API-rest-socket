@@ -32,10 +32,13 @@ class SpecBuilder {
    * Generate a JSON file with the generated spec
    */
   public generateSpec() {
+    // TODO: Cambiar funcionalidad para generar directamente la documentación
     fs.writeFile(
       'API/spec.json',
       JSON.stringify(this.spec),
-      (err) => console.log(err)
+      err => {
+        if (err) console.log(err)
+      }
     );
   }
 
