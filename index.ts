@@ -1,15 +1,16 @@
 import chalk from 'chalk';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import { Request, Response, NextFunction } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import 'reflect-metadata';
 import path from 'path';
 
 import Server from './core/Server';
+
 import { specBuilder } from './core/decorators/SpecBuilder';
 
 import { TestController } from './app/controllers/TestController';
-import express from 'express';
+import { MainController } from './app/controllers/MainController';
 
 // Get server instanse
 const server = Server.instance;
@@ -30,7 +31,10 @@ server.app.use(cors({
     credentials: true
 }));
 
-server.addControllers(new TestController());
+server.addControllers([
+    new MainController(),
+    new TestController()
+]);
 
 // Generating spec json
 specBuilder.generateSpec();
