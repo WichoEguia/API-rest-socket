@@ -32,6 +32,17 @@ export const Params = (spec: Object = {}): ParameterDecorator => {
   return Param(null, spec);
 }
 
+export const Header = (prop?: string | null, spec: Object = {}): ParameterDecorator => {
+  return Inject('HEADER', (req: any) => {
+    if (!prop) return req.headers;
+    return req.get(prop);
+  }, spec);
+}
+
+export const Headers = (spec: Object = {}): ParameterDecorator => {
+  return Header(null, spec);
+}
+
 export function Inject(type: string, fn: Function, spec?: Object): ParameterDecorator {
   return (target: Object, propertyKey: string | symbol, index: number) => {
     let routeProperties = Reflect.getOwnMetadata(propertyKey, target) || {};

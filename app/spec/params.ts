@@ -9,8 +9,18 @@ export const PARAMETERS_TOKEN_TEST_PARAMS = {
 };
 
 export const PARAMETERS_ID_TEST_PARAMS = {
-  "name": "id",
+  "name": "token",
   "in": "path",
+  "description": "The token identifier string",
+  "required": true,
+  "schema": {
+    "type": "string"
+  }
+};
+
+export const HEADER_TOKEN_TEST_PARAMS = {
+  "name": "token",
+  "in": "header",
   "description": "The token identifier string",
   "required": true,
   "schema": {

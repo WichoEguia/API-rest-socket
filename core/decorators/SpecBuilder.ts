@@ -32,7 +32,6 @@ class SpecBuilder {
    * Generate a JSON file with the generated spec
    */
   public generateSpec() {
-    // TODO: Cambiar funcionalidad para generar directamente la documentación
     fs.writeFile(
       'public/API/spec.json',
       JSON.stringify(this.spec),
@@ -75,8 +74,9 @@ class SpecBuilder {
     switch (type) {
       case 'QUERY_PARAM':
       case 'PARAM':
-        this.spec.paths[path]['parameters'] = this.spec.paths[path]['parameters'] || [];
-        this.spec.paths[path]['parameters'] = [...this.spec.paths[path]['parameters'], spec];
+      case 'HEADER':
+        this.spec.paths[path][method]['parameters'] = this.spec.paths[path][method]['parameters'] || [];
+        this.spec.paths[path][method]['parameters'] = [...this.spec.paths[path][method]['parameters'], spec];
         break;
 
       case 'BODY':
