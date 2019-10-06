@@ -1,59 +1,57 @@
-import { Controller, Post, Body, Param, Get, Req } from '../../core/decorators';
-import { RESPONSE_TEST_PARAMS, RESPONSE_TEST_REQUESTBODY } from '../spec/responses';
-import { PARAMETERS_TOKEN_TEST_PARAMS, PARAMETERS_ID_TEST_PARAMS, REQUESTBODY_FROM_TEST_REQUESTBODY } from '../spec/params';
+import { Controller, Post, Body, Param, Put } from '../../core/decorators';
 import { Hero } from '../models/Hero';
 
 import { HeroRepository } from '../repositories/HeroRepository';
-import { MongoClient } from 'mongodb';
-
-interface body {
-  id: number;
-  name: string;
-  age: number;
-}
+import { Delete, Get } from '../../core/decorators/REST/RestMethods';
 
 @Controller('test')
 export class TestController {
-  private repository: HeroRepository;
+  private repository = new HeroRepository();
 
-  constructor() {
-    const client = new MongoClient('mongodb://localhost');
-    client.connect((err) => {
-      const db = client.db('warriors');
-      this.repository = new HeroRepository(db, 'heroes');
-    });
+  @Get('/hero')
+  async getAllHeroes() {
+    const heroes = await this.repository.find();
+    const numberOfHeroes = await this.repository.countHeroes();
+
+    return { heroes, numberOfHeroes };
   }
 
-  @Get('/params/:id/:token', {
-    summary: 'testing parameters',
-    responses: {
-      '200': RESPONSE_TEST_PARAMS
-    }
-  })
-  async testParams(
-    @Param('id', PARAMETERS_ID_TEST_PARAMS) id: string,
-    @Param('token', PARAMETERS_TOKEN_TEST_PARAMS) token: string
+  @Get('/hero/:id')
+  async getOneHero(
+    @Param('id') id: string
   ) {
-    return { id, token };
-  }
-
-  @Post('/bodyRequest', {
-    summary: 'testing body request',
-    responses: {
-      '200': RESPONSE_TEST_REQUESTBODY
-    }
-  })
-  async testBodyRequest(
-    @Body(REQUESTBODY_FROM_TEST_REQUESTBODY) body: body
-  ) {
-    return body;
+    const hero = await this.repository.findOne(id);
+    return { hero };
   }
 
   @Post('/hero')
   async addHero(
     @Body() hero: Hero
   ) {
-    const result = await this.repository.create(hero);
-    return `Insert hero ${result ? 'success' : 'fail'}`;
+    const inserted = await this.repository.create(hero);
+    const numberOfHeroes = await this.repository.countHeroes();
+
+    return { inserted, numberOfHeroes };
+  }
+
+  @Put('/hero/:id')
+  async updateHero(
+    @Param('id') id: string,
+    @Body() hero: Hero
+  ) {
+    const updated = await this.repository.update(id, hero);
+    const numberOfHeroes = await this.repository.countHeroes();
+
+    return { updated, numberOfHeroes };
+  }
+
+  @Delete('/hero/:id')
+  async deleteHero(
+    @Param('id') id: string
+  ) {
+    const deleted = await this.repository.delete(id);
+    const numberOfHeroes = await this.repository.countHeroes();
+
+    return { deleted, numberOfHeroes };
   }
 }

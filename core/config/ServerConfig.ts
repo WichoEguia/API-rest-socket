@@ -59,10 +59,12 @@ export default class ServerConfig {
 
                 // Add routes and params to spec
                 specBuilder.addPathSpec(path, httpVerb, pathSpec);
-                params.forEach((param: any) => {
-                    // params.sort((a: any, b: any) => a.index - b.index);
-                    specBuilder.addParamsSpec(path, param.spec, param.type, httpVerb);
-                });
+
+                if (params) {
+                    params.forEach((param: any) => {
+                        specBuilder.addParamsSpec(path, param.spec, param.type, httpVerb);
+                    });
+                }
 
                 let callBack = async (req: Request, res: Response, next: NextFunction) => {
                     let args = this.getArguments(params, req, res, next);
@@ -98,7 +100,7 @@ export default class ServerConfig {
         if (params) {
             args = [];
             params.sort((a: any, b: any) => a.index - b.index);
-            params.forEach(param => {
+            params.forEach((param: any) => {
                 let result;
                 if (param !== undefined) result = param.fn(req);
 
