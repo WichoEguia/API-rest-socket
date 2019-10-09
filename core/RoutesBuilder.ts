@@ -1,8 +1,8 @@
 import chalk from 'chalk';
-import { RouterLib, Controller, IRouterAndPath } from '../Server';
+import { RouterLib, Controller, IRouterAndPath } from './Server';
 import { Request, Response, NextFunction } from 'express';
 
-import { specBuilder } from './../decorators/SpecBuilder';
+import { specBuilder } from './decorators/SpecBuilder';
 
 export default class ServerConfig {
     constructor() {

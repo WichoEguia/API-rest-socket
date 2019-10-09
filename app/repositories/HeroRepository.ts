@@ -6,10 +6,10 @@ export class HeroRepository extends BaseRepository<Hero> {
     super({
       "connector": "mongodb",
       "url": "mongodb://localhost:27017",
-      "port": 27017,
       "user": "",
       "password": "",
       "database": "warriors",
+      "collection": "heroes",
       "useNewUrlParser": true
     });
   }

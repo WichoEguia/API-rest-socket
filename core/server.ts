@@ -1,9 +1,8 @@
-import express, { Application, Request, Response, Router, NextFunction } from 'express';
+import express, { Application, Router } from 'express';
 import socketIO from 'socket.io';
 import http from 'http';
-import chalk from 'chalk';
 
-import ServerConfig from './config/ServerConfig';
+import ServerConfig from './RoutesBuilder';
 
 import * as socket from '../app/sockets/socket';
 
@@ -15,7 +14,7 @@ export interface IRouterAndPath {
     router: Router | null;
 }
 
-export default class Server extends ServerConfig{
+export default class Server extends ServerConfig {
     private static _instance: Server;
 
     public port: number;
@@ -68,7 +67,7 @@ export default class Server extends ServerConfig{
     public addControllers(controllers: Controller | Controller[], routerLib?: RouterLib): void {
         controllers = (controllers instanceof Array) ? controllers : [controllers];
         const routerLibrary = routerLib || Router;
-            controllers.forEach((controller: Controller) => {
+        controllers.forEach((controller: Controller) => {
             if (controller) {
                 const { basePath, router } = this.getRouter(routerLibrary, controller);
                 if (basePath && router) {

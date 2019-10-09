@@ -1,17 +1,17 @@
 export const Req = (): ParameterDecorator => {
-  return Inject('REQUEST', (req: any) => req);
+  return InjectParam('REQUEST', (req: any) => req);
 }
 
 export const Res = (): ParameterDecorator => {
-  return Inject('RESPONSE', (res: any) => res);
+  return InjectParam('RESPONSE', (res: any) => res);
 }
 
 export const Body = (spec: Object = {}): ParameterDecorator => {
-  return Inject('BODY', (req: any) => req.body, spec);
+  return InjectParam('BODY', (req: any) => req.body, spec);
 }
 
 export const QueryParam = (prop?: string | null, spec: Object = {}): ParameterDecorator => {
-  return Inject('QUERY_PARAM', (req: any) => {
+  return InjectParam('QUERY_PARAM', (req: any) => {
     if (!prop) return req.query;
     return req.query[prop];
   }, spec);
@@ -22,7 +22,7 @@ export const QueryParams = (spec: Object = {}): ParameterDecorator => {
 }
 
 export const Param = (prop?: string | null, spec: Object = {}): ParameterDecorator => {
-  return Inject('PARAM', (req: any) => {
+  return InjectParam('PARAM', (req: any) => {
     if (!prop) return req.params;
     return req.params[prop];
   }, spec);
@@ -33,7 +33,7 @@ export const Params = (spec: Object = {}): ParameterDecorator => {
 }
 
 export const Header = (prop?: string | null, spec: Object = {}): ParameterDecorator => {
-  return Inject('HEADER', (req: any) => {
+  return InjectParam('HEADER', (req: any) => {
     if (!prop) return req.headers;
     return req.get(prop);
   }, spec);
@@ -43,7 +43,7 @@ export const Headers = (spec: Object = {}): ParameterDecorator => {
   return Header(null, spec);
 }
 
-export function Inject(type: string, fn: Function, spec?: Object): ParameterDecorator {
+export function InjectParam(type: string, fn: Function, spec?: Object): ParameterDecorator {
   return (target: Object, propertyKey: string | symbol, index: number) => {
     let routeProperties = Reflect.getOwnMetadata(propertyKey, target) || {};
 

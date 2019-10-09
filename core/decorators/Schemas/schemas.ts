@@ -1,4 +1,4 @@
-const Schema = (name: string): ClassDecorator => {
+const Model = (name: string): ClassDecorator => {
   return (target: Object) => {
     let spec = {
       [name]: {

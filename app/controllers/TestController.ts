@@ -1,14 +1,12 @@
-import { Controller, Post, Body, Param, Put } from '../../core/decorators';
+import { Controller, Get, Post, Body, Param, Put, Delete } from '../../core/decorators';
 import { Hero } from '../models/Hero';
-
 import { HeroRepository } from '../repositories/HeroRepository';
-import { Delete, Get } from '../../core/decorators/REST/RestMethods';
 
-@Controller('test')
+@Controller('heroes')
 export class TestController {
   private repository = new HeroRepository();
 
-  @Get('/hero')
+  @Get('/')
   async getAllHeroes() {
     const heroes = await this.repository.find();
     const numberOfHeroes = await this.repository.countHeroes();
@@ -16,7 +14,7 @@ export class TestController {
     return { heroes, numberOfHeroes };
   }
 
-  @Get('/hero/:id')
+  @Get('/:id')
   async getOneHero(
     @Param('id') id: string
   ) {
@@ -24,7 +22,7 @@ export class TestController {
     return { hero };
   }
 
-  @Post('/hero')
+  @Post('/new')
   async addHero(
     @Body() hero: Hero
   ) {
@@ -34,7 +32,7 @@ export class TestController {
     return { inserted, numberOfHeroes };
   }
 
-  @Put('/hero/:id')
+  @Put('/update/:id')
   async updateHero(
     @Param('id') id: string,
     @Body() hero: Hero
@@ -45,7 +43,7 @@ export class TestController {
     return { updated, numberOfHeroes };
   }
 
-  @Delete('/hero/:id')
+  @Delete('/delete/:id')
   async deleteHero(
     @Param('id') id: string
   ) {
