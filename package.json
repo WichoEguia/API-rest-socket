@@ -7,7 +7,7 @@
     "clean": "rimraf dist",
     "build": "tsc",
     "watch:build": "tsc --watch",
-    "watch:server": "nodemon './dist/*.js' --watch './dist'",
+    "watch:server": "nodemon './dist/' --watch",
     "start": "npm-run-all clean build --parallel watch:build watch:server --print-label"
   },
   "keywords": [],
