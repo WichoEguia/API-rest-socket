@@ -1,4 +1,4 @@
-const Model = (name: string): ClassDecorator => {
+const Entity = (name: string): ClassDecorator => {
   return (target: Object) => {
     let spec = {
       [name]: {
@@ -7,8 +7,8 @@ const Model = (name: string): ClassDecorator => {
     };
 
     Reflect.defineMetadata('SCHEMA', spec, target);
-  }
-}
+  };
+};
 
 const Property = (spec?: Object): PropertyDecorator => {
   return (target: Object, propertyKey: string | symbol) => {
@@ -17,16 +17,17 @@ const Property = (spec?: Object): PropertyDecorator => {
     };
 
     Reflect.defineMetadata(propertyKey, spec, target);
-  }
-}
+  };
+};
 
 const Required = (): PropertyDecorator => {
   return (target: Object, propertyKey: string | symbol) => {
-    let requiredProperties = Reflect.getOwnMetadata('REQUIRED_PROPERTIES', target) || [];
+    let requiredProperties =
+      Reflect.getOwnMetadata('REQUIRED_PROPERTIES', target) || [];
 
     if (requiredProperties.includes(propertyKey))
       requiredProperties.push(propertyKey);
 
     Reflect.defineMetadata('REQUIRED_PROPERTIES', requiredProperties, target);
-  }
-}
+  };
+};

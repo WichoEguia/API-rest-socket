@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { httpVerbs } from './REST/RestMethods';
+import { httpVerbs } from './RestMethods';
 
 /**
  * Generate the spec object from
@@ -7,7 +7,7 @@ import { httpVerbs } from './REST/RestMethods';
  */
 class SpecBuilder {
   private spec: any = {
-    openapi: "3.0.0",
+    openapi: '3.0.0',
     description: 'bla bla bla',
     info: {
       version: '0.0.0',
@@ -21,7 +21,7 @@ class SpecBuilder {
 
   /**
    * Get the spec object
-   * 
+   *
    * @returns Spec object
    */
   public getSpec() {
@@ -31,19 +31,16 @@ class SpecBuilder {
   /**
    * Generate a JSON file with the generated spec
    */
-  public generateSpec() {
-    fs.writeFile(
-      'public/API/spec.json',
-      JSON.stringify(this.spec),
-      err => {
-        if (err) console.log(err)
-      }
-    );
+  public generateSpec(cb: Function) {
+    fs.writeFile('public/API/spec.json', JSON.stringify(this.spec), err => {
+      if (err) console.log(err);
+      cb();
+    });
   }
 
   /**
    * Add spec of the path to the global spec
-   * 
+   *
    * @param path Full path from the endpoint
    * @param method HTTP verb used for the call
    * @param spec Objet from the path
@@ -53,20 +50,20 @@ class SpecBuilder {
       [path]: {
         [method]: { ...spec }
       }
-    }
+    };
 
     if (!this.spec.paths.hasOwnProperty(path)) {
-      this.spec.paths[path] = { ...spec[path] }
+      this.spec.paths[path] = { ...spec[path] };
     } else {
       if (!this.spec.paths[path].hasOwnProperty(method)) {
-        this.spec.paths[path][method] = { ...spec[path] }
+        this.spec.paths[path][method] = { ...spec[path] };
       }
     }
   }
 
   /**
    * Add parameters to path in the global spec
-   * 
+   *
    * @param path Path that belongs the parameter
    * @param spec Info of the parameter
    */
@@ -75,8 +72,12 @@ class SpecBuilder {
       case 'QUERY_PARAM':
       case 'PARAM':
       case 'HEADER':
-        this.spec.paths[path][method]['parameters'] = this.spec.paths[path][method]['parameters'] || [];
-        this.spec.paths[path][method]['parameters'] = [...this.spec.paths[path][method]['parameters'], spec];
+        this.spec.paths[path][method]['parameters'] =
+          this.spec.paths[path][method]['parameters'] || [];
+        this.spec.paths[path][method]['parameters'] = [
+          ...this.spec.paths[path][method]['parameters'],
+          spec
+        ];
         break;
 
       case 'BODY':
