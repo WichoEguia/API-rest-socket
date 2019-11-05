@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { httpVerbs } from './RestMethods';
+import { httpVerbs } from './decorators/RestMethods';
 
 /**
  * Generate the spec object from

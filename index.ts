@@ -7,7 +7,7 @@ import path from 'path';
 
 import Server from './core/Server';
 
-import { specBuilder } from './core/decorators/SpecBuilder';
+import { specBuilder } from './core/SpecBuilder';
 
 import { TestController } from './app/controllers/TestController';
 import { MainController } from './app/controllers/MainController';

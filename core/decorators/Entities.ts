@@ -1,3 +1,5 @@
+import { TYPES } from './../constants/Types';
+
 const Entity = (name: string): ClassDecorator => {
   return (target: Object) => {
     let spec = {
@@ -6,7 +8,7 @@ const Entity = (name: string): ClassDecorator => {
       }
     };
 
-    Reflect.defineMetadata('SCHEMA', spec, target);
+    Reflect.defineMetadata(TYPES.SCHEMA, spec, target);
   };
 };
 
@@ -23,11 +25,15 @@ const Property = (spec?: Object): PropertyDecorator => {
 const Required = (): PropertyDecorator => {
   return (target: Object, propertyKey: string | symbol) => {
     let requiredProperties =
-      Reflect.getOwnMetadata('REQUIRED_PROPERTIES', target) || [];
+      Reflect.getOwnMetadata(TYPES.REQUIRED_PROPERTIES, target) || [];
 
     if (requiredProperties.includes(propertyKey))
       requiredProperties.push(propertyKey);
 
-    Reflect.defineMetadata('REQUIRED_PROPERTIES', requiredProperties, target);
+    Reflect.defineMetadata(
+      TYPES.REQUIRED_PROPERTIES,
+      requiredProperties,
+      target
+    );
   };
 };
