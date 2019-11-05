@@ -2,33 +2,12 @@ import chalk from 'chalk';
 import { RouterLib, Controller, IRouterAndPath } from './Server';
 import { Request, Response, NextFunction } from 'express';
 
+import { TYPES } from './constants/Types';
 import { specBuilder } from './SpecBuilder';
 
-export default class ServerConfig {
+export default class RoutesBuilder {
   constructor() {
-    console.log(chalk.blue('\nSTARTING SERVER...'));
-
-    // PORT
-    process.env.PORT = '3000';
-
-    // URL database
-    let database = '';
-    process.env.DB_URL = `mongodb://localhost:27017/${database}`;
-
-    // Expiration token
-    process.env.CADUCIDAD_TOKEN = '48h';
-
-    // Token seed
-    process.env.SEED = 'este-es-el-seed-desarrollo';
-
-    // Proyect name
-    process.env.API_NAME = 'EAPI';
-
-    // Version
-    process.env.API_VERSION = '1.0.0';
-
-    // Description
-    process.env.API_DESCRIPTION = 'Api de prueba WAPI';
+    console.log(chalk.blue('\nLOADING ROUTES...'));
   }
 
   /**
@@ -37,14 +16,14 @@ export default class ServerConfig {
    * @param routerLibrary Custom library to manage routes
    * @param controller Instance of the controller to be processed
    */
-  protected getRouter(
+  public getRouter(
     routerLibrary: RouterLib,
     controller: Controller
   ): IRouterAndPath {
     let router = routerLibrary();
 
     const prototype = Object.getPrototypeOf(controller);
-    const basePath = Reflect.getOwnMetadata('BASE_PATH', prototype);
+    const basePath = Reflect.getOwnMetadata(TYPES.BASE_PATH, prototype);
     if (!basePath) {
       return {
         basePath: null,

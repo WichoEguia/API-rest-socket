@@ -8,10 +8,10 @@ import { httpVerbs } from './decorators/RestMethods';
 class SpecBuilder {
   private spec: any = {
     openapi: '3.0.0',
-    description: 'bla bla bla',
     info: {
-      version: '0.0.0',
-      title: 'EAPI'
+      title: process.env.API_NAME,
+      version: process.env.API_VERSION,
+      description: process.env.API_DESCRIPTION
     },
     paths: {},
     components: {
