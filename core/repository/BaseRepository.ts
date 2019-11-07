@@ -4,18 +4,16 @@ import { IRead } from './interfaces/IRead';
 import { MongoClient, Collection, ObjectID } from 'mongodb';
 import chalk from 'chalk';
 
-export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
+export abstract class BaseRepositoryMongoDB<T> implements IWrite<T>, IRead<T> {
   public _collection: Collection | null = null;
 
-  constructor(dataset: any) {
-    const client = new MongoClient(dataset.url, {
-      useNewUrlParser: dataset.useNewUrlParser,
-      useUnifiedTopology: true
-    });
-    client.connect((err) => {
+  constructor(dataset: any, client: MongoClient) {
+    client.connect(err => {
       if (err) {
         console.log(
-          chalk.red('Ha ocurrido un error al intentar conectar con la base de datos.'),
+          chalk.red(
+            'Ha ocurrido un error al intentar conectar con la base de datos.'
+          ),
           '\n' + err.message
         );
       }
@@ -39,7 +37,7 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
     if (!this._collection) return false;
     try {
       const result = await this._collection.findOneAndUpdate(
-        { '_id': new ObjectID(id) },
+        { _id: new ObjectID(id) },
         { $set: { ...item } },
         { returnOriginal: false }
       );
@@ -52,7 +50,9 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
   async delete(id: string): Promise<T | boolean> {
     if (!this._collection) return false;
     try {
-      const result = await this._collection.findOneAndDelete({ '_id': new ObjectID(id) });
+      const result = await this._collection.findOneAndDelete({
+        _id: new ObjectID(id)
+      });
       return result.value;
     } catch (e) {
       return false;
@@ -62,13 +62,15 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
   async find(): Promise<T[] | boolean> {
     if (!this._collection) return false;
     const result = await this._collection.find({}).toArray();
-    return result.length ? result : false
+    return result.length ? result : false;
   }
 
   async findOne(id: string): Promise<T | boolean> {
     if (!this._collection) return false;
-    const result = await this._collection.find({ '_id': new ObjectID(id) }).toArray();
+    const result = await this._collection
+      .find({ _id: new ObjectID(id) })
+      .toArray();
 
-    return result.length ? result[0] : false
+    return result.length ? result[0] : false;
   }
 }

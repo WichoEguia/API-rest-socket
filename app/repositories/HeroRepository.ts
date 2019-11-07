@@ -1,17 +1,22 @@
-import { BaseRepository } from '../../core/repository/BaseRepository';
+import { BaseRepositoryMongoDB } from '../../core/repository/BaseRepository';
 import { Hero } from '../models/Hero';
+import { MongoClient } from 'mongodb';
 
-export class HeroRepository extends BaseRepository<Hero> {
+export class HeroRepository extends BaseRepositoryMongoDB<Hero> {
   constructor() {
-    super({
-      "connector": "mongodb",
-      "url": "mongodb://localhost:27017",
-      "user": "",
-      "password": "",
-      "database": "warriors",
-      "collection": "heroes",
-      "useNewUrlParser": true
-    });
+    super(
+      {
+        connector: 'mongodb',
+        user: '',
+        password: '',
+        database: 'warriors',
+        collection: 'heroes'
+      },
+      new MongoClient('mongodb://localhost:27017', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      })
+    );
   }
 
   async countHeroes(): Promise<number | null> {
