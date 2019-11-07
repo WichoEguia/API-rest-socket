@@ -4,7 +4,7 @@ import { IRead } from './interfaces/IRead';
 import { MongoClient, Collection, ObjectID } from 'mongodb';
 import chalk from 'chalk';
 
-export abstract class BaseRepositoryMongoDB<T> implements IWrite<T>, IRead<T> {
+export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
   public _collection: Collection | null = null;
 
   constructor(dataset: any, client: MongoClient) {

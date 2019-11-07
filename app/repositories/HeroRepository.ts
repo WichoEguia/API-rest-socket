@@ -1,8 +1,8 @@
-import { BaseRepositoryMongoDB } from '../../core/repository/BaseRepository';
+import { BaseRepository } from '../../core/repository/BaseRepository';
 import { Hero } from '../models/Hero';
 import { MongoClient } from 'mongodb';
 
-export class HeroRepository extends BaseRepositoryMongoDB<Hero> {
+export class HeroRepository extends BaseRepository<Hero> {
   constructor() {
     super(
       {
