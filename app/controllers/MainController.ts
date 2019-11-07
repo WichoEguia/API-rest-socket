@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Headers, Header } from '../../core/decorators';
+import { Controller, Get, Req, Header } from '../../core/decorators';
 import { HEADER_TOKEN_TEST_PARAMS } from '../spec/params';
 
 const SCHEMA_PING = {
@@ -23,7 +23,8 @@ const RESPONSE_PING = {
 @Controller('ping')
 export class MainController {
   @Get('/', {
-    summary: 'Make a ping request',
+    summary: 'Ping',
+    description: 'Make a ping request to test the API funtionality',
     responses: {
       '200': RESPONSE_PING
     }
@@ -36,7 +37,8 @@ export class MainController {
       greetings: 'Hello from EAPI',
       date: new Date(),
       url: req.url,
-      headers: req.headers
+      headers: req.headers,
+      token
     };
   }
 }

@@ -6,10 +6,8 @@ import 'reflect-metadata';
 import path from 'path';
 
 import Server from './core/Server';
-
 import { specBuilder } from './core/SpecBuilder';
 
-import { TestController } from './app/controllers/TestController';
 import { MainController } from './app/controllers/MainController';
 
 // Get server instanse
@@ -33,7 +31,7 @@ server.app.use(
   })
 );
 
-server.addControllers([new MainController(), new TestController()]);
+server.addControllers([new MainController()]);
 
 // Serve static files
 server.app.use(express.static('public'));
